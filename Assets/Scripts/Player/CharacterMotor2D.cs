@@ -5,12 +5,14 @@ namespace LastDescent.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterMotor2D : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D body;
-        [SerializeField] private float acceleration = 50f;
-        [SerializeField] private float deceleration = 70f;
+        private Rigidbody2D body;
+        private Vector2 desiredVelocity;
+        public float CurrentSpeed => body.linearVelocity.magnitude;
 
-        private Vector2 _desiredVelocity;
-        public float CurrentSpeed => body != null ? body.linearVelocity.magnitude : 0f;
+        private void Awake()
+        {
+            if (body == null) body = GetComponent<Rigidbody2D>();
+        }
 
         private void Reset()
         {
@@ -22,13 +24,7 @@ namespace LastDescent.Player
                 body.interpolation = RigidbodyInterpolation2D.Interpolate;
             }
         }
-
-        private void Awake()
-        {
-            if (body == null) body = GetComponent<Rigidbody2D>();
-        }
-
-        public void SetDesiredVelocity(Vector2 v) => _desiredVelocity = v;
+        public void SetDesiredVelocity(Vector2 v) => desiredVelocity = v;
 
         public void TeleportTo(Vector2 pos)
         {
@@ -40,18 +36,7 @@ namespace LastDescent.Player
         {
             if (body == null) return;
 
-            Vector2 vel = body.linearVelocity;
-            Vector2 target = _desiredVelocity;
-
-            // Choose accel/decel per-axis
-            Vector2 delta = target - vel;
-            float ax = Mathf.Abs(target.x) > Mathf.Abs(vel.x) ? acceleration : deceleration;
-            float ay = Mathf.Abs(target.y) > Mathf.Abs(vel.y) ? acceleration : deceleration;
-
-            vel.x = Mathf.MoveTowards(vel.x, target.x, ax * Time.fixedDeltaTime);
-            vel.y = Mathf.MoveTowards(vel.y, target.y, ay * Time.fixedDeltaTime);
-
-            body.linearVelocity = vel;
+            body.linearVelocity = desiredVelocity;
         }
     }
 }

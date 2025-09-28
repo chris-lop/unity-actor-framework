@@ -22,7 +22,7 @@ namespace LastDescent.Player
 
         private void Update()
         {
-            if (_input == null) return;
+            if (_input == null || tuning == null || _motor == null) return;
 
             var cmd = _input.ReadCommand();
 

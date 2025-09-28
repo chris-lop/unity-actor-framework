@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cff9700f899d7b4cb9d88f4f77204fa, type: 3}
   m_Name: PlayerTuning_Default
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.ScriptableObjects.PlayerTuning
-  moveSpeed: 6
-  acceleration: 50
-  deceleration: 70
+  moveSpeed: 5
   rotationSmoothTime: 0.06
