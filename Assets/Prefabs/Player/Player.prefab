@@ -180,9 +180,11 @@ GameObject:
   - component: {fileID: 3639413442517674225}
   - component: {fileID: 8510546354981966391}
   - component: {fileID: 1249437271621635567}
-  - component: {fileID: 203600118967782653}
   - component: {fileID: 1844626211265466477}
   - component: {fileID: 700500961990746759}
+  - component: {fileID: 6311183381950025109}
+  - component: {fileID: 6960534899595200766}
+  - component: {fileID: 2370796791754896626}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -222,7 +224,6 @@ MonoBehaviour:
   inputAdapter: {fileID: 700500961990746759}
   controller: {fileID: 8510546354981966391}
   motor: {fileID: 3639413442517674225}
-  health: {fileID: 203600118967782653}
   animatorBridge: {fileID: 8640999050408999837}
   authority: {fileID: 9134009471263570445}
 --- !u!114 &9134009471263570445
@@ -291,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.PlayerController
   tuning: {fileID: 11400000, guid: 4d928ce5b2889ea40ab03a8d004cca39, type: 2}
   animatorBridge: {fileID: 8640999050408999837}
+  lifeState: {fileID: 0}
 --- !u!114 &1249437271621635567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,19 +305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c113ed48dccf84993f7bdc4752e13a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.CharacterMotor2D
---- !u!114 &203600118967782653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8800267560981810009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52837d398aa5737458764d2244313cc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.PlayerHealth
-  maxHP: 5
 --- !u!114 &1844626211265466477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +349,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.PlayerInputAdapter
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   aimAction: {fileID: -5630151704836100654, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  attackAction: {fileID: 1120369429361536294, guid: ce40e92b9492b73458a860aea2320fcf, type: 3}
   worldCamera: {fileID: 0}
+--- !u!114 &6311183381950025109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800267560981810009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4940cdca6d44f644917c9805a699af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Attributes.AttributeSet
+  _baseValues:
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  _currentValues:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+--- !u!114 &6960534899595200766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800267560981810009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02c18a9b06863b4e982143e784b90a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Attributes.AttributeInitializer
+  Profile: {fileID: 11400000, guid: d788b8607597c37449bdcd11211a5302, type: 2}
+  _set: {fileID: 6311183381950025109}
+--- !u!114 &2370796791754896626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800267560981810009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5038fb6f8a939574bb50d6593331b336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Combat.LifeState
+  _attributes: {fileID: 6311183381950025109}
 --- !u!1 &9093137852180182128
 GameObject:
   m_ObjectHideFlags: 0

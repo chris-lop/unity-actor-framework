@@ -1,5 +1,6 @@
 using UnityEngine;
 using LastDescent.Input;
+using LastDescent.Gameplay.Combat;
 
 namespace LastDescent.Player
 {
@@ -9,7 +10,7 @@ namespace LastDescent.Player
     {
         [SerializeField] private ScriptableObjects.PlayerTuning tuning;
         [SerializeField] private PlayerAnimatorBridge animatorBridge;
-
+        [SerializeField] private LifeState lifeState;
         private IPlayerInputSource _input;
         private CharacterMotor2D _motor;
 
@@ -18,6 +19,7 @@ namespace LastDescent.Player
         private void Awake()
         {
             _motor = GetComponent<CharacterMotor2D>();
+            if (lifeState == null) lifeState = GetComponent<LifeState>();
         }
 
         private void Update()
@@ -34,6 +36,10 @@ namespace LastDescent.Player
             // Desired velocity
             Vector2 desired = cmd.move.normalized * tuning.moveSpeed;
             _motor.SetDesiredVelocity(desired);
+
+            // DEBUG ability: attack press -> take 1 damage through attributes
+            if (cmd.attackPressed)
+                lifeState?.Damage(1f, source: this);
 
             // Anim
             animatorBridge?.SetMoveSpeed(_motor.CurrentSpeed);

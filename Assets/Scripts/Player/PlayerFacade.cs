@@ -10,7 +10,6 @@ namespace LastDescent.Player
         [SerializeField] private PlayerInputAdapter inputAdapter;
         [SerializeField] private PlayerController controller;
         [SerializeField] private CharacterMotor2D motor;
-        [SerializeField] private PlayerHealth health;
         [SerializeField] private PlayerAnimatorBridge animatorBridge;
         [SerializeField] private PlayerAuthority authority;
 
@@ -19,7 +18,6 @@ namespace LastDescent.Player
             inputAdapter = GetComponent<PlayerInputAdapter>();
             controller = GetComponent<PlayerController>();
             motor = GetComponent<CharacterMotor2D>();
-            health = GetComponent<PlayerHealth>();
             animatorBridge = GetComponent<PlayerAnimatorBridge>();
             authority = GetComponent<PlayerAuthority>();
         }

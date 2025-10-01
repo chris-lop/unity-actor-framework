@@ -1,14 +1,16 @@
 using UnityEngine;
+using LastDescent.Gameplay.Animation;
 
 namespace LastDescent.Player
 {
     /// <summary>Thin layer to talk to Animator or flip sprite.</summary>
-    public class PlayerAnimatorBridge : MonoBehaviour
+    public class PlayerAnimatorBridge : MonoBehaviour, IHurtDieAnimBridge
     {
         [SerializeField] private Animator animator;
         [SerializeField] private SpriteRenderer sprite;
 
         static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+        static readonly int AttackTriggerHash = Animator.StringToHash("AttackTrigger");
         static readonly int HurtTriggerHash = Animator.StringToHash("HurtTrigger");
         static readonly int DieTriggerHash = Animator.StringToHash("DieTrigger");
 
@@ -32,6 +34,11 @@ namespace LastDescent.Player
         public void PlayDie()
         {
             if (animator) animator.SetTrigger(DieTriggerHash);
+        }
+
+        public void PlayAttack(Vector2 dir)
+        {
+            if (animator) animator.SetTrigger(AttackTriggerHash);
         }
     }
 }

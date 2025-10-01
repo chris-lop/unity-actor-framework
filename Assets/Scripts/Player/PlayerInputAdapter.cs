@@ -11,12 +11,14 @@ namespace LastDescent.Player
         [Header("Actions (from .inputactions)")]
         [SerializeField] private InputActionReference moveAction;
         [SerializeField] private InputActionReference aimAction;
+        [SerializeField] private InputActionReference attackAction;
 
 
         [Header("Aim")]
         [SerializeField] private Camera worldCamera;
 
         private Vector2 _cachedAim;
+        private bool _attackLast;
 
         private void Awake()
         {
@@ -27,12 +29,14 @@ namespace LastDescent.Player
         {
             moveAction?.action.Enable();
             aimAction?.action.Enable();
+            attackAction?.action.Enable();
         }
 
         private void OnDisable()
         {
             moveAction?.action.Disable();
             aimAction?.action.Disable();
+            attackAction?.action.Disable();
         }
 
         public PlayerCommand ReadCommand()
@@ -67,6 +71,11 @@ namespace LastDescent.Player
                     cmd.aimWorld = _cachedAim; // keep last good aim target
                 }
             }
+
+            // 3) Attack
+            bool attackNow = attackAction != null && attackAction.action.ReadValue<float>() > 0.5f;
+            cmd.attackPressed = attackNow && !_attackLast;
+            _attackLast = attackNow;
 
             return cmd;
         }
