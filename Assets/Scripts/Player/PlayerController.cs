@@ -39,7 +39,10 @@ namespace LastDescent.Player
 
             // DEBUG ability: attack press -> take 1 damage through attributes
             if (cmd.attackPressed)
+            {
                 lifeState?.Damage(1f, source: this);
+                animatorBridge?.PlayAttack(facing.normalized);
+            }
 
             // Anim
             animatorBridge?.SetMoveSpeed(_motor.CurrentSpeed);

@@ -1,5 +1,6 @@
 using UnityEngine;
 using LastDescent.Gameplay.Animation;
+using LastDescent.Gameplay.Combat;
 
 namespace LastDescent.Player
 {
@@ -8,11 +9,63 @@ namespace LastDescent.Player
     {
         [SerializeField] private Animator animator;
         [SerializeField] private SpriteRenderer sprite;
+        private LifeState life; 
 
         static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
         static readonly int AttackTriggerHash = Animator.StringToHash("AttackTrigger");
         static readonly int HurtTriggerHash = Animator.StringToHash("HurtTrigger");
         static readonly int DieTriggerHash = Animator.StringToHash("DieTrigger");
+
+        void Reset()
+        {
+            if (!animator) animator = GetComponentInChildren<Animator>();
+            if (!sprite)   sprite   = GetComponentInChildren<SpriteRenderer>();
+            if (!life)     life     = GetComponentInParent<LifeState>();
+        }
+
+        void OnEnable()
+        {
+            if (!life)
+                life = GetComponentInParent<LifeState>();
+
+            if (life)
+            {
+                // Bind once, right here.
+                life.OnDamaged += HandleDamaged;
+                life.OnDied    += HandleDied;
+                life.OnRevived += HandleRevived;
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: PlayerAnimatorBridge has no LifeState assigned.");
+            }
+        }
+
+        // ===== Event handlers wired to LifeState =====
+        void HandleDamaged(float amount, object source)
+        {
+            PlayHurt();
+        }
+
+        void HandleDied()
+        {
+            PlayDie();
+        }
+
+        void HandleRevived()
+        {
+            // TODO
+        }
+
+        void OnDisable()
+        {
+            if (life)
+            {
+                life.OnDamaged -= HandleDamaged;
+                life.OnDied    -= HandleDied;
+                life.OnRevived -= HandleRevived;
+            }
+        }
 
 
         public void SetMoveSpeed(float speed)
