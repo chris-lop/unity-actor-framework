@@ -15,6 +15,7 @@ namespace LastDescent.Gameplay.Combat
         public event Action<float, object> OnHealed;  // amount, source
         public event Action OnDied;
         public event Action OnRevived;
+        public event Action<float, float> OnHealthChanged;
 
         bool _isDead;
 
@@ -34,6 +35,8 @@ namespace LastDescent.Gameplay.Combat
 
             _isDead = _attributes.GetCurrent(AttributeId.Health) <= 0f;
             _attributes.OnCurrentChanged += HandleAttrChanged;
+
+            OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
 
         void OnDestroy()
@@ -62,11 +65,14 @@ namespace LastDescent.Gameplay.Combat
                 _isDead = false;
                 OnRevived?.Invoke();
             }
+
+            OnHealthChanged?.Invoke(newV, MaxHealth);
         }
 
         public void Damage(float amount, object source = null)
         {
             if (amount <= 0f || _attributes == null) return;
+            OnDamaged?.Invoke(amount, source);
             _attributes.ApplyDelta(AttributeId.Health, -amount);
         }
 
@@ -77,7 +83,7 @@ namespace LastDescent.Gameplay.Combat
         }
 
         public bool IsDead => _isDead;
-        public float Health => _attributes.GetCurrent(AttributeId.Health);
+        public float CurrentHealth => _attributes.GetCurrent(AttributeId.Health);
         public float MaxHealth => _attributes.GetBase(AttributeId.MaxHealth);
     }
 }

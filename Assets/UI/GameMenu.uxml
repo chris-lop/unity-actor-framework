@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/game-menu.uss?fileID=7433441132597879392&amp;guid=7e87858505f9256408469c5766f50b50&amp;type=3#game-menu" />
+    <ui:VisualElement name="Container" class="container" style="flex-grow: 1;">
+        <ui:VisualElement name="LowerContainer" class="lower-container" style="flex-grow: 1; max-height: 20%;">
+            <ui:VisualElement name="HealthBarContainer" class="health-container" style="flex-grow: 1; align-content: center; justify-content: center; max-width: 20%; width: 20%;">
+                <ui:ProgressBar value="56.6" name="HealthBar" style="-unity-background-image-tint-color: rgb(255, 255, 255);">
+                    <Bindings>
+                        <ui:DataBinding property="value" data-source-path="_currentValues[0]" data-source-type="LastDescent.Gameplay.Attributes.AttributeSet, Assembly-CSharp" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:ProgressBar>
+            </ui:VisualElement>
+            <ui:VisualElement name="AbilityBarContainer" class="ability-bar-container" style="flex-grow: 1;" />
+            <ui:VisualElement class="stats-container" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
