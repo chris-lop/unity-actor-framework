@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 49071902}
   - component: {fileID: 49071901}
   - component: {fileID: 49071903}
+  - component: {fileID: 49071904}
   m_Layer: 5
-  m_Name: HealthBar
+  m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -193,6 +194,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBarController
   life: {fileID: 3638569773113822902}
+--- !u!114 &49071904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49071900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17122dba94ffffc43b13a1ff9eb34018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.UI.HealthBarOverlayService
+  uiDocument: {fileID: 49071901}
+  healthbarTemplate: {fileID: 9197481963319205126, guid: 651294a508a160b4282774484c0de7d0, type: 3}
+  panelSettings: {fileID: 11400000, guid: 9db70b81e2edb2c4fae2d9968d7573dd, type: 2}
+  pixelOffset: {x: 0, y: 24}
+  hideOffscreen: 1
+  initialPool: 32
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +344,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.55, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -566,7 +585,7 @@ Transform:
   m_GameObject: {fileID: 719209530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.55, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28030,7 +28049,7 @@ PrefabInstance:
       objectReference: {fileID: 519420031}
     - target: {fileID: 5211580225760540355, guid: 0c6feeaa3e0ab674c8c8d2c4c54851c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.55
       objectReference: {fileID: 0}
     - target: {fileID: 5211580225760540355, guid: 0c6feeaa3e0ab674c8c8d2c4c54851c3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28068,10 +28087,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8510546354981966391, guid: 0c6feeaa3e0ab674c8c8d2c4c54851c3, type: 3}
-      propertyPath: lifeState
-      value: 
-      objectReference: {fileID: 3638569773113822902}
     - target: {fileID: 8800267560981810009, guid: 0c6feeaa3e0ab674c8c8d2c4c54851c3, type: 3}
       propertyPath: m_Name
       value: Player
@@ -28092,6 +28107,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5038fb6f8a939574bb50d6593331b336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Combat.LifeState
+--- !u!1001 &6572236433942622281
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107218788585226004, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9143249534850840130, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
+      propertyPath: m_Name
+      value: Portal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 07beec8adbabbda41b338c6ef8af3451, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -28104,3 +28176,4 @@ SceneRoots:
   - {fileID: 730737404}
   - {fileID: 1532617976}
   - {fileID: 49071902}
+  - {fileID: 6572236433942622281}

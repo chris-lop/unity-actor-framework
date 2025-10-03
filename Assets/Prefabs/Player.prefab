@@ -292,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.PlayerController
   tuning: {fileID: 11400000, guid: 4d928ce5b2889ea40ab03a8d004cca39, type: 2}
   animatorBridge: {fileID: 8640999050408999837}
-  lifeState: {fileID: 0}
+  lifeState: {fileID: 2370796791754896626}
 --- !u!114 &1249437271621635567
 MonoBehaviour:
   m_ObjectHideFlags: 0

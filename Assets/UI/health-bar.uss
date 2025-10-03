@@ -1,0 +1,43 @@
+:root {
+}
+
+/* Root container */
+.hb {
+    width: 96px;
+    height: 10px;
+
+    /* Theme variables */
+    --hb-fill: #39d353;
+    --hb-bg: rgba(0, 0, 0, 0.6);
+    --hb-radius: 6px;
+
+    opacity: 0.95;
+}
+
+.hb__bar {
+    width: 100%;
+    height: 100%;
+}
+
+.hb__bar .unity-progress-bar__background {
+    background-color: var(--hb-bg);
+    border-radius: var(--hb-radius);
+}
+
+.hb__bar .unity-progress-bar__progress {
+    background-color: var(--hb-fill);
+    border-radius: var(--hb-radius);
+    transition: width 0.08s ease-out;
+}
+
+.hb__bar .unity-progress-bar__title {
+    display: none;
+}
+
+/* add the 'hb--with-title' class at runtime to show title */
+.hb.hb--with-title .unity-progress-bar__title {
+    display: flex;
+    color: white;
+    font-size: 10px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.7);
+}
