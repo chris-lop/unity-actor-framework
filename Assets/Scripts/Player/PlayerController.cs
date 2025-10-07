@@ -11,6 +11,7 @@ namespace LastDescent.Player
         [SerializeField] private ScriptableObjects.PlayerTuning tuning;
         [SerializeField] private PlayerAnimatorBridge animatorBridge;
         [SerializeField] private LifeState lifeState;
+        [SerializeField] private MeleeDebugAbility meleeAbility;
         private IPlayerInputSource _input;
         private CharacterMotor2D _motor;
 
@@ -20,6 +21,7 @@ namespace LastDescent.Player
         {
             _motor = GetComponent<CharacterMotor2D>();
             if (lifeState == null) lifeState = GetComponent<LifeState>();
+            if (meleeAbility == null) meleeAbility = GetComponent<MeleeDebugAbility>();
         }
 
         private void Update()
@@ -39,10 +41,7 @@ namespace LastDescent.Player
 
             // DEBUG ability: attack press -> take 1 damage through attributes
             if (cmd.attackPressed)
-            {
-                lifeState?.Damage(1f, source: this);
-                animatorBridge?.PlayAttack(facing.normalized);
-            }
+                meleeAbility?.TryActivate(facing, animatorBridge);
 
             // Anim
             animatorBridge?.SetMoveSpeed(_motor.CurrentSpeed);
