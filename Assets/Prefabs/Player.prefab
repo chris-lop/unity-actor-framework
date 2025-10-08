@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 6311183381950025109}
   - component: {fileID: 6960534899595200766}
   - component: {fileID: 2370796791754896626}
+  - component: {fileID: 576292557952231597}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -293,6 +294,7 @@ MonoBehaviour:
   tuning: {fileID: 11400000, guid: 4d928ce5b2889ea40ab03a8d004cca39, type: 2}
   animatorBridge: {fileID: 8640999050408999837}
   lifeState: {fileID: 2370796791754896626}
+  meleeAbility: {fileID: 576292557952231597}
 --- !u!114 &1249437271621635567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +404,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Combat.LifeState
   _attributes: {fileID: 6311183381950025109}
+--- !u!114 &576292557952231597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800267560981810009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16f0842c1eb4ad4d843534ca411d818, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Gameplay.Combat.MeleeDebugAbility
+  range: 1.1
+  damage: 1
+  cooldownSeconds: 0.25
+  arcDegrees: 180
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &9093137852180182128
 GameObject:
   m_ObjectHideFlags: 0

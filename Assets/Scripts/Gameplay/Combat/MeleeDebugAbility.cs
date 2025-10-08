@@ -1,5 +1,6 @@
 using UnityEngine;
 using LastDescent.Player;
+using System.Collections.Generic;
 
 namespace LastDescent.Gameplay.Combat
 {
@@ -11,10 +12,18 @@ namespace LastDescent.Gameplay.Combat
         [SerializeField, Min(0f)] private float cooldownSeconds = 0.25f;
         [SerializeField, Range(1f, 360f)] private float arcDegrees = 180f;
         [SerializeField] private LayerMask damageableMask = ~0;
-
+        [Header("Temporary: Active Hit Window")]
+        [SerializeField, Tooltip("If true, we keep sampling during a short window so late targets can get hit.")]
+        private bool useActiveWindow = true;
+        [SerializeField, Min(0f), Tooltip("Delay before the window starts (lets the animation wind-up).")]
+        private float preImpactDelay = 0.05f;
+        [SerializeField, Min(0f), Tooltip("How long to keep sampling for hits after activation.")]
+        private float activeWindowSeconds = 0.15f;
         private LifeState _selfLife;
         private float _nextReady;
         private Vector2 _lastFacing = Vector2.right;
+        private readonly HashSet<LifeState> _hitThisWindow = new HashSet<LifeState>();
+        private Coroutine _swingRoutine;
 
         private void Awake()
         {
@@ -32,9 +41,32 @@ namespace LastDescent.Gameplay.Combat
             facing.Normalize();
             _lastFacing = facing;
 
-            // Precompute cosine threshold for arc culling
+            if (useActiveWindow)
+            {
+                if (_swingRoutine != null) StopCoroutine(_swingRoutine);
+                _swingRoutine = StartCoroutine(SwingWindow(facing));
+            }
+            else
+            {
+                // Original single-sample behavior
+                SampleOnce(facing, null);
+            }
+
+            animator?.PlayAttack(facing);
+
+            _nextReady = Time.time + cooldownSeconds;
+            return true;
+        }
+
+        // Samples once and applies damage; dedupes per-window if a set is provided.
+        private void SampleOnce(Vector2 facing, HashSet<LifeState> hitOnce = null)
+        {
+            // Normalize facing; if zero, default right
+            if (facing.sqrMagnitude < 0.0001f) facing = Vector2.right;
+            facing.Normalize();
+
             float halfArc = Mathf.Clamp(arcDegrees * 0.5f, 0.5f, 180f);
-            float cosThreshold = Mathf.Cos(halfArc * Mathf.Deg2Rad); // keep targets within +/- halfArc
+            float cosThreshold = Mathf.Cos(halfArc * Mathf.Deg2Rad);
 
             var hits = Physics2D.OverlapCircleAll(transform.position, range);
             Vector2 origin = transform.position;
@@ -50,24 +82,40 @@ namespace LastDescent.Gameplay.Combat
                 // Direction to target & arc filter
                 Vector2 toTarget = (Vector2)col.transform.position - origin;
                 float sqrMag = toTarget.sqrMagnitude;
-                if (sqrMag < 0.0001f) continue; // overlapping self center; skip
+                if (sqrMag < 0.0001f) continue;
 
                 toTarget *= 1f / Mathf.Sqrt(sqrMag);
                 float dot = Vector2.Dot(facing, toTarget);
-                if (dot < cosThreshold) continue; // outside arc
+                if (dot < cosThreshold) continue;
 
                 // LifeState & self filter
                 if (col.TryGetComponent(out LifeState target) && !ReferenceEquals(target, _selfLife))
                 {
+                    if (hitOnce != null && hitOnce.Contains(target)) continue;
                     target.Damage(damage, source: this);
+                    hitOnce?.Add(target);
                 }
             }
-
-            animator?.PlayAttack(facing);
-
-            _nextReady = Time.time + cooldownSeconds;
-            return true;
         }
+        
+        private System.Collections.IEnumerator SwingWindow(Vector2 facing)
+        {
+            // Optional wind-up delay to better align with animation impact
+            if (preImpactDelay > 0f)
+                yield return new WaitForSeconds(preImpactDelay);
+
+            _hitThisWindow.Clear();
+            float endTime = Time.time + activeWindowSeconds;
+            while (Time.time < endTime)
+            {
+                // Sample every frame so targets that move into range during the swing get hit once
+                SampleOnce(facing, _hitThisWindow);
+                yield return null;
+            }
+            _hitThisWindow.Clear();
+            _swingRoutine = null;
+        }
+
 
       #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
