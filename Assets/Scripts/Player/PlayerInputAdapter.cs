@@ -4,9 +4,9 @@ using LastDescent.Input;
 
 namespace LastDescent.Player
 {
-    /// <summary>Bridges Unity Input System to PlayerCommand.</summary>
+    /// <summary>Bridges Unity Input System to ActorCommand for player-controlled actors.</summary>
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerInputAdapter : MonoBehaviour, IPlayerInputSource
+    public class PlayerInputAdapter : MonoBehaviour, IInputSource<ActorCommand>
     {
         [Header("Actions (from .inputactions)")]
         [SerializeField] private InputActionReference moveAction;
@@ -39,9 +39,9 @@ namespace LastDescent.Player
             attackAction?.action.Disable();
         }
 
-        public PlayerCommand ReadCommand()
+        public ActorCommand ReadCommand()
         {
-            var cmd = PlayerCommand.Empty;
+            var cmd = ActorCommand.Empty;
 
             // 1) Move
             cmd.move = moveAction != null ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
