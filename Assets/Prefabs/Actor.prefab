@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7978735674136817684, guid: fac86f6e5ed0cf343a3581cff59c0232, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &271729006555026741
@@ -130,8 +130,6 @@ GameObject:
   - component: {fileID: 8089148520823146114}
   - component: {fileID: 1651245171205751409}
   - component: {fileID: 7602288641093379289}
-  - component: {fileID: 5836525689659300609}
-  - component: {fileID: 5228068707315294223}
   - component: {fileID: 2019821743968879678}
   m_Layer: 7
   m_Name: Actor
@@ -277,52 +275,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationPresenter
   animator: {fileID: 0}
---- !u!114 &5836525689659300609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5885496650020757865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: ce40e92b9492b73458a860aea2320fcf, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &5228068707315294223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5885496650020757865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7ce1e15bbb4fed4b8dd087be0468b56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LastDescent.Player.PlayerInputAdapter
-  moveAction: {fileID: -1680190386980627800, guid: ce40e92b9492b73458a860aea2320fcf, type: 3}
-  aimAction: {fileID: -5630151704836100654, guid: ce40e92b9492b73458a860aea2320fcf, type: 3}
-  attackAction: {fileID: 1120369429361536294, guid: ce40e92b9492b73458a860aea2320fcf, type: 3}
-  worldCamera: {fileID: 0}
 --- !u!114 &2019821743968879678
 MonoBehaviour:
   m_ObjectHideFlags: 0
