@@ -47,6 +47,34 @@
 
 ## Complete Actor Setup
 
+### Generic Actor
+
+```
+Actor (GameObject)
+├─ ActorKernel ...................... Manages all features
+├─ Rigidbody2D ...................... Physics body
+├─ Collider2D ....................... Physics collision
+│
+├─ Motor2DFeature ................... Movement capability
+├─ AbilityRunnerFeature ............. Attack/ability capability
+├─ TeamFeature ...................... Team identification
+├─ AttributesFeature ................ Stats
+├─ LifeFeature ...................... Health system
+├─ DeathCoordinatorFeature .......... Coordinates actor death sequence
+│
+├─ IInputSource Implementation ...... Input sources that provides commands to actor
+├─ ActorCommandProcessor ............ Dispatches commands to features
+│
+├─ AnimationPresenter ............... Controls animations and visuals
+│
+├─ Model (GameObject)
+│   └─ Sprite (GameObject)
+│       └─ AnimationEventHandler .... Handles animation clip events
+├─ Hurtbox (GameObject)
+├─ HitOrigin (GameObject)
+└─ Physics (GameObject)
+```
+
 ### Player Actor
 
 ```
@@ -58,11 +86,14 @@ PlayerActor (GameObject)
 ├─ Motor2DFeature ................... Movement capability
 ├─ AbilityRunnerFeature ............. Attack/ability capability
 ├─ TeamFeature ...................... Team identification
-├─ AttributesFeature ................ Stats (optional)
-├─ LifeFeature ...................... Health system (optional)
+├─ AttributesFeature ................ Stats
+├─ LifeFeature ...................... Health system
+├─ DeathCoordinatorFeature .......... Coordinates actor death sequence
 │
 ├─ PlayerInputAdapter ............... Reads keyboard/mouse/gamepad
-└─ ActorCommandProcessor ............ Dispatches commands to features
+├─ ActorCommandProcessor ............ Dispatches commands to features
+│
+(etc...)
 ```
 
 ### AI Actor
@@ -78,7 +109,10 @@ EnemyActor (GameObject)
 ├─ TeamFeature
 │
 ├─ AIInputSourceExample ............. AI decision making
-└─ ActorCommandProcessor ............ Dispatches commands to features
+├─ ActorCommandProcessor ............ Dispatches commands to features
+│
+(etc...)
+
 ```
 
 ## Key Unity Limitation: No Generic MonoBehaviours
@@ -179,36 +213,6 @@ public class VehicleCommandProcessor : ActorFeatureBase {
 - Forget to check for null references
 - Put game logic in input sources (only read input)
 
-## File Locations
-
-**Core System:**
-
-- `Core/ActorKernel.cs` - Main actor manager
-- `Core/ActorContext.cs` - Shared context for features
-- `Core/IActorFeature.cs` - Feature interface
-- `Core/ActorFeatureBase.cs` - Feature base class (reduces boilerplate)
-- `Core/ActorEventBus.cs` - Event system for actors
-
-**Input System:**
-
-- `Core/Input/IInputSource.cs` - Input source interface
-- `Core/Input/ActorCommand.cs` - Standard command struct
-- `Core/Input/AIInputSourceExample.cs` - Example AI input
-- `Player/PlayerInputAdapter.cs` - Player input implementation
-
-**Command Processing:**
-
-- `Features/Commands/ActorCommandProcessor.cs` - Standard processor
-- `Features/Commands/CustomCommandProcessorTemplate.cs` - Template for custom processors
-
-**Other Features:**
-
-- `Features/Movement/Motor2DFeature.cs` - 2D movement
-- `Features/Abilities/AbilityRunnerFeature.cs` - Ability execution
-- `Features/TeamFeature.cs` - Team identification
-- `Features/Attributes/AttributesFeature.cs` - Stats system
-- `Features/Attributes/LifeFeature.cs` - Health system
-
 ## Quick Troubleshooting
 
 | Problem                          | Solution                                                                    |
@@ -218,15 +222,5 @@ public class VehicleCommandProcessor : ActorFeatureBase {
 | No input response                | Check IInputSource + ActorCommandProcessor are both attached                |
 | "No IInputSource found" warning  | Attach input source to same GameObject as processor                         |
 | Can't add processor in Inspector | Make sure you're using ActorCommandProcessor (concrete class) not a generic |
-
-## Next Steps
-
-1. Attach ActorKernel to your actor GameObject
-2. Add required features (Motor2D, AbilityRunner, etc.)
-3. Add an input source (PlayerInputAdapter or AIInputSource)
-4. Add ActorCommandProcessor
-5. Assign ActorDefinition ScriptableObject to ActorKernel
-6. Configure input source (input actions, camera, etc.)
-7. Press Play!
 
 For detailed information, see `ACTOR_SYSTEM_GUIDE.md`

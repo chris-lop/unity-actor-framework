@@ -247,6 +247,18 @@ public class VehicleCommandProcessor : ActorFeatureBase
 }
 ```
 
+## Animation Events
+The AnimationEventHandler script should be placed on the same GameObject as the Animator (the sprite).
+
+1. Open your animation clip in the Animation window.
+
+2. Select a frame and click “Add Event”.
+
+3. In the Function dropdown, choose a method from AnimationEventHandler.
+
+These events trigger gameplay logic through the **Actor event system** — for example, signaling when a death animation finishes.
+
+
 ## Best Practices
 
 1. **Keep Features Independent**: Features should not directly reference each other. Use ActorEventBus for communication when needed.
