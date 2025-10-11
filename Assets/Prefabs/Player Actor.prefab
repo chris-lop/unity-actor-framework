@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Actor
       objectReference: {fileID: 0}
+    - target: {fileID: 7259180329436990392, guid: de06b41e90f37784a80f0e507540db3f, type: 3}
+      propertyPath: definition
+      value: 
+      objectReference: {fileID: 11400000, guid: 2631defb44bc60a4bb3ede6e4453bee2, type: 2}
     - target: {fileID: 7602288641093379289, guid: de06b41e90f37784a80f0e507540db3f, type: 3}
       propertyPath: sprite
       value: 

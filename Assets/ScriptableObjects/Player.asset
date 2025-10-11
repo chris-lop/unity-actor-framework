@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActorDefinition
   AttributeSet: {fileID: 11400000, guid: 13a8b9de46521e8448f7d15fb3324bf8, type: 2}
   Abilities:
-  - {fileID: 11400000, guid: f1e72e23f26e1544a85361e96a74f8ca, type: 2}
+  - {fileID: 11400000, guid: 37e891d8a4a7de74e84ce4d3a71f2224, type: 2}
   Team: 0

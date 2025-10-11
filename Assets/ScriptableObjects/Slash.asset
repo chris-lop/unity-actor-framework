@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20f50da9c7460294c86ab39a42e092a0, type: 3}
-  m_Name: Player BA
-  m_EditorClassIdentifier: Assembly-CSharp::AbilityDefinition
-  Id: BasicAttack
-  Cooldown: 1
-  Targeting: 1
-  ProjectilePrefab: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: d200571dad59e6c4ca581b270935ac62, type: 3}
+  m_Name: Slash
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAOEAbility
+  Id: Basic
+  Cooldown: 0.5
   Damage: 10
+  HurtboxMask:
+    serializedVersion: 2
+    m_Bits: 256
+  Radius: 0.8
+  ForwardOffset: 0.3

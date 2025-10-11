@@ -1,31 +1,26 @@
+using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public sealed class AbilityRunnerFeature : MonoBehaviour, IActorFeature
 {
-    [Header("Raycast")]
-    [SerializeField]
-    private Transform hitOrigin;
-
-    [SerializeField]
-    private LayerMask hurtboxMask;
-
-    [SerializeField]
-    private float startOffset = 0.2f;
-
-    [SerializeField]
-    private float maxDistance = 10f;
-
     private ActorContext _ctx;
     private TeamFeature _team;
     private float _cd;
+
+    // Preview fields
+    private AbilityDefinition _currentAbility;
+    private Vector2 _lastAimDir = Vector2.right;
+#if UNITY_EDITOR
+    private double _previewExpireAt;
+
+    private static double Now() => UnityEditor.EditorApplication.timeSinceStartup;
+#endif
 
     public void Initialize(ActorContext ctx)
     {
         _ctx = ctx;
         _team = GetComponent<TeamFeature>();
-        if (!hitOrigin)
-            hitOrigin = transform;
     }
 
     public bool TryCast(AbilityDefinition def, Vector2 dir)
@@ -35,40 +30,19 @@ public sealed class AbilityRunnerFeature : MonoBehaviour, IActorFeature
 
         dir = dir.sqrMagnitude > 0.0001f ? dir.normalized : (Vector2)transform.right;
 
-        // push origin slightly forward so we don’t start inside our own collider
-        Vector2 origin = (Vector2)hitOrigin.position + dir * startOffset;
-        Debug.DrawLine(hitOrigin.position, origin, Color.green, 0.1f);
+        // cache for editor preview
+        _currentAbility = def;
+        _lastAimDir = dir;
+#if UNITY_EDITOR
+        _previewExpireAt = Now() + 2.0;
+#endif
 
-        // visual debug
-        Debug.DrawRay(origin, dir * maxDistance, Color.red, 0.2f);
-
-        RaycastHit2D hit = Physics2D.Raycast(origin, dir, maxDistance, hurtboxMask);
-
-        if (hit.collider == null)
-            return false;
-
-        // fetch the target actor
-        var targetKernel = hit.collider.GetComponentInParent<ActorKernel>();
-        if (targetKernel == null)
-            return false;
-
-        // ignore self
-        if (targetKernel == _ctx.Kernel)
-            return false;
-
-        // ignore same team (no friendly fire)
-        var targetTeam = targetKernel.GetComponent<TeamFeature>();
-        if (_team != null && targetTeam != null && _team.Team == targetTeam.Team)
-            return false;
-
-        // apply damage to the *target's* bus
-        targetKernel.Ctx.Events.Raise(
-            new DamageEvent { SourceId = _ctx.ActorId, Amount = def.Damage }
-        );
-
+        // For now, always raise cast event
+        // TODO: If applying buff or healing, should be conditional
         _ctx.Events.Raise(new AbilityCastEvent { AbilityId = def.Id });
         _cd = def.Cooldown;
-        return true;
+
+        return def.TryCast(dir, _ctx, _team);
     }
 
     public void Tick(float dt)
@@ -80,4 +54,34 @@ public sealed class AbilityRunnerFeature : MonoBehaviour, IActorFeature
     public void FixedTick(float fdt) { }
 
     public void Shutdown() { }
+
+#if UNITY_EDITOR
+    public void SetPreview(AbilityDefinition def, Vector2 dir)
+    {
+        _currentAbility = def;
+        _lastAimDir = (dir.sqrMagnitude > 0.0001f ? dir.normalized : (Vector2)transform.right);
+    }
+
+    private void OnDrawGizmos()
+    {
+        DrawAbilityPreview();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        DrawAbilityPreview();
+    }
+
+    private void DrawAbilityPreview()
+    {
+        if (_currentAbility == null)
+            return;
+        if (Now() > _previewExpireAt)
+            return;
+
+        var dir =
+            _lastAimDir.sqrMagnitude > 0.0001f ? _lastAimDir.normalized : (Vector2)transform.right;
+        _currentAbility.DrawEditorPreview(transform.position, dir, _ctx, transform);
+    }
+#endif
 }
