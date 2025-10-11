@@ -1,12 +1,50 @@
 using UnityEngine;
 
-public sealed class AnimationPresenter : MonoBehaviour, IActorFeature {
-    [SerializeField] Animator animator; ActorContext _ctx;
-    public void Initialize(ActorContext ctx){
+public sealed class AnimationPresenter : MonoBehaviour, IActorFeature
+{
+    static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+    static readonly int AttackTriggerHash = Animator.StringToHash("AttackTrigger");
+    static readonly int HurtTriggerHash = Animator.StringToHash("HurtTrigger");
+    static readonly int DieTriggerHash = Animator.StringToHash("DieTrigger");
+
+    [SerializeField]
+    Animator animator;
+
+    [SerializeField]
+    SpriteRenderer sprite;
+
+    private ActorContext _ctx;
+    private Motor2DFeature _motor;
+
+    public void Initialize(ActorContext ctx)
+    {
         _ctx = ctx;
-        if (!animator) animator = GetComponentInChildren<Animator>();
-        _ctx.Events.OnAbilityCast += e => animator?.SetTrigger("Cast");
-        _ctx.Events.OnDeath += () => animator?.SetTrigger("Die");
+        if (!animator)
+            animator = GetComponentInChildren<Animator>();
+
+        _motor = GetComponent<Motor2DFeature>();
+
+        _ctx.Events.OnAbilityCast += e => animator?.SetTrigger(AttackTriggerHash);
+        _ctx.Events.OnDeath += () => animator?.SetTrigger(DieTriggerHash);
+        _ctx.Events.OnDamage += _ => animator?.SetTrigger(HurtTriggerHash);
     }
-    public void Tick(float dt){} public void FixedTick(float fdt){} public void Shutdown(){}
+
+    public void Tick(float dt)
+    {
+        if (animator == null || _motor == null)
+            return;
+
+        animator.SetFloat(MoveSpeedHash, _motor.MoveSpeed);
+
+        if (sprite)
+        {
+            var dir = _motor.AimDirection;
+            if (Mathf.Abs(dir.x) > 0.01f)
+                sprite.flipX = dir.x < 0f;
+        }
+    }
+
+    public void FixedTick(float fdt) { }
+
+    public void Shutdown() { }
 }

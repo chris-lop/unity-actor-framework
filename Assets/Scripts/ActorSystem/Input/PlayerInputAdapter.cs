@@ -1,6 +1,6 @@
+using LastDescent.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using LastDescent.Input;
 
 namespace LastDescent.Player
 {
@@ -9,20 +9,26 @@ namespace LastDescent.Player
     public class PlayerInputAdapter : MonoBehaviour, IInputSource<ActorCommand>
     {
         [Header("Actions (from .inputactions)")]
-        [SerializeField] private InputActionReference moveAction;
-        [SerializeField] private InputActionReference aimAction;
-        [SerializeField] private InputActionReference attackAction;
+        [SerializeField]
+        private InputActionReference moveAction;
 
+        [SerializeField]
+        private InputActionReference aimAction;
+
+        [SerializeField]
+        private InputActionReference attackAction;
 
         [Header("Aim")]
-        [SerializeField] private Camera worldCamera;
+        [SerializeField]
+        private Camera worldCamera;
 
         private Vector2 _cachedAim;
         private bool _attackLast;
 
         private void Awake()
         {
-            if (worldCamera == null) worldCamera = Camera.main;
+            if (worldCamera == null)
+                worldCamera = Camera.main;
         }
 
         private void OnEnable()
@@ -51,14 +57,17 @@ namespace LastDescent.Player
             if (Mouse.current != null && worldCamera != null)
             {
                 Vector2 screen = Mouse.current.position.ReadValue();
-                Vector3 world = worldCamera.ScreenToWorldPoint(new Vector3(screen.x, screen.y, Mathf.Abs(worldCamera.transform.position.z)));
+                Vector3 world = worldCamera.ScreenToWorldPoint(
+                    new Vector3(screen.x, screen.y, Mathf.Abs(worldCamera.transform.position.z))
+                );
                 cmd.aimWorld = new Vector2(world.x, world.y);
                 _cachedAim = cmd.aimWorld;
             }
             else
             {
                 // Fallback for gamepad right-stick providing a direction vector; project to world in front of player.
-                Vector2 aimDir = aimAction != null ? aimAction.action.ReadValue<Vector2>() : Vector2.zero;
+                Vector2 aimDir =
+                    aimAction != null ? aimAction.action.ReadValue<Vector2>() : Vector2.zero;
                 if (aimDir.sqrMagnitude > 0.001f)
                 {
                     // Put an arbitrary distance ahead in world space; the controller will only use the direction anyway.

@@ -1,18 +1,18 @@
-using UnityEngine;
 using LastDescent.Input;
+using UnityEngine;
 
 /// <summary>
 /// Reads ActorCommands from an IInputSource and dispatches them to actor features.
 /// This is the standard command processor for most actors (players, AI, network).
-/// 
+///
 /// Attach this component alongside an IInputSource&lt;ActorCommand&gt; to enable control:
 /// - PlayerInputAdapter for player control
 /// - AIInputSourceExample for AI control
 /// - NetworkInputSource for network control (future)
-/// 
+///
 /// The processor automatically finds the input source and dispatches commands to
 /// Motor2DFeature for movement and AbilityRunnerFeature for abilities.
-/// 
+///
 /// For custom command types, create a similar processor following this pattern.
 /// </summary>
 [DisallowMultipleComponent]
@@ -31,7 +31,10 @@ public class ActorCommandProcessor : ActorFeatureBase
         _inputSource = GetComponent<IInputSource<ActorCommand>>();
         if (_inputSource == null)
         {
-            Debug.LogWarning($"[ActorCommandProcessor] No IInputSource<ActorCommand> found on {gameObject.name}. Actor will not respond to input.", this);
+            Debug.LogWarning(
+                $"[ActorCommandProcessor] No IInputSource<ActorCommand> found on {gameObject.name}. Actor will not respond to input.",
+                this
+            );
         }
 
         // Cache references to features we'll be controlling
@@ -47,7 +50,8 @@ public class ActorCommandProcessor : ActorFeatureBase
 
     public override void Tick(float dt)
     {
-        if (_inputSource == null) return;
+        if (_inputSource == null)
+            return;
 
         // Read command from input source
         ActorCommand command = _inputSource.ReadCommand();
@@ -62,6 +66,9 @@ public class ActorCommandProcessor : ActorFeatureBase
     /// </summary>
     protected virtual void ProcessCommand(ActorCommand cmd)
     {
+        // 0) Set aim
+        _motor.SetAim(cmd.aimWorld);
+
         // 1) Movement
         if (_motor != null && cmd.move.sqrMagnitude > 0.001f)
         {
@@ -69,7 +76,7 @@ public class ActorCommandProcessor : ActorFeatureBase
         }
         else if (_motor != null)
         {
-            _motor.Move(Vector2.zero); // Stop movement
+            _motor.Move(Vector2.zero);
         }
 
         // 2) Attack/Ability
@@ -83,5 +90,3 @@ public class ActorCommandProcessor : ActorFeatureBase
         }
     }
 }
-
-
