@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 3520076884551319164}
   - component: {fileID: 2801415697652118735}
   - component: {fileID: 8317749059065010611}
+  - component: {fileID: 58679305263535571}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -182,6 +183,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &58679305263535571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566024433447850508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 215d6c93691b2ea4cb0cc705779f8ddd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationEventHandler
 --- !u!1 &5314788969403572459
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,6 +242,7 @@ GameObject:
   - component: {fileID: 6799361627270113944}
   - component: {fileID: 4682678910739708940}
   - component: {fileID: 8089148520823146114}
+  - component: {fileID: -6839918495116347840}
   - component: {fileID: 1651245171205751409}
   - component: {fileID: 7602288641093379289}
   - component: {fileID: 2019821743968879678}
@@ -346,6 +360,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5bf1b93d2b15d4b9757e08d7f01798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LifeFeature
+--- !u!114 &-6839918495116347840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5885496650020757865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e43892218436174daf8fa44d6f30349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathCoordinatorFeature
 --- !u!114 &1651245171205751409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,12 +384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baebac0741a1ebe4daf1e4d1d636ef93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilityRunnerFeature
-  hitOrigin: {fileID: 5199824864469188945}
-  hurtboxMask:
-    serializedVersion: 2
-    m_Bits: 256
-  startOffset: 2
-  maxDistance: 10
 --- !u!114 &7602288641093379289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationPresenter
   animator: {fileID: 0}
+  sprite: {fileID: 0}
 --- !u!114 &2019821743968879678
 MonoBehaviour:
   m_ObjectHideFlags: 0

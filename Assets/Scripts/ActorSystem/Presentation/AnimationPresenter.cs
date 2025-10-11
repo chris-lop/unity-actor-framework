@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Motor2DFeature))]
 public sealed class AnimationPresenter : MonoBehaviour, IActorFeature
 {
     static readonly int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
@@ -24,9 +25,9 @@ public sealed class AnimationPresenter : MonoBehaviour, IActorFeature
 
         _motor = GetComponent<Motor2DFeature>();
 
-        _ctx.Events.OnAbilityCast += e => animator?.SetTrigger(AttackTriggerHash);
-        _ctx.Events.OnDeath += () => animator?.SetTrigger(DieTriggerHash);
-        _ctx.Events.OnDamage += _ => animator?.SetTrigger(HurtTriggerHash);
+        _ctx.Events.OnAbilityCast += e => animator.SetTrigger(AttackTriggerHash);
+        _ctx.Events.OnDeathStarted += OnDeathStarted;
+        _ctx.Events.OnDamage += _ => animator.SetTrigger(HurtTriggerHash);
     }
 
     public void Tick(float dt)
@@ -46,5 +47,14 @@ public sealed class AnimationPresenter : MonoBehaviour, IActorFeature
 
     public void FixedTick(float fdt) { }
 
-    public void Shutdown() { }
+    public void Shutdown()
+    {
+        if (_ctx != null)
+            _ctx.Events.OnDeathStarted -= OnDeathStarted;
+    }
+
+    private void OnDeathStarted()
+    {
+        animator.SetTrigger(DieTriggerHash);
+    }
 }
