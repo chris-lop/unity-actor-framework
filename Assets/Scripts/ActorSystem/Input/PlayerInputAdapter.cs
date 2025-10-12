@@ -25,6 +25,9 @@ namespace LastDescent.Player
         private Vector2 _cachedAim;
         private bool _attackLast;
 
+        public int ability1Slot = 0;
+        public int ability2Slot = 1;
+
         private void Awake()
         {
             if (worldCamera == null)
@@ -84,6 +87,7 @@ namespace LastDescent.Player
             // 3) Attack
             bool attackNow = attackAction != null && attackAction.action.ReadValue<float>() > 0.5f;
             cmd.attackPressed = attackNow && !_attackLast;
+            cmd.requestedAbilitySlot = ability1Slot; // TODO: Set conditionally after
             _attackLast = attackNow;
 
             return cmd;

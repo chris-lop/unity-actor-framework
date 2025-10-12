@@ -15,4 +15,6 @@ MonoBehaviour:
   AttributeSet: {fileID: 11400000, guid: 2dcd998a8af9cf64ea36b736abfb05be, type: 2}
   Abilities:
   - {fileID: 11400000, guid: 37e891d8a4a7de74e84ce4d3a71f2224, type: 2}
+  - {fileID: 11400000, guid: 37e891d8a4a7de74e84ce4d3a71f2224, type: 2}
   Team: 1
+  DetectionRange: 3

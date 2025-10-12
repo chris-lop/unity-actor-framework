@@ -17,5 +17,3 @@ public abstract class ActorFeatureBase : UnityEngine.MonoBehaviour, IActorFeatur
 
     public virtual void Shutdown() { }
 }
-
-

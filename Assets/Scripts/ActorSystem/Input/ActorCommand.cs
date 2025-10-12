@@ -19,5 +19,8 @@ namespace LastDescent.Input
 
         /// <summary>True if attack/ability button was pressed this frame (rising edge).</summary>
         public bool attackPressed;
+
+        /// <summary>maps to Definition.Abilities[slot]
+        public int requestedAbilitySlot;
     }
 }

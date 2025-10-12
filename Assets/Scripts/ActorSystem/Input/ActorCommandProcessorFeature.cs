@@ -16,12 +16,11 @@ using UnityEngine;
 /// For custom command types, create a similar processor following this pattern.
 /// </summary>
 [DisallowMultipleComponent]
-public class ActorCommandProcessor : ActorFeatureBase
+public class ActorCommandProcessorFeature : ActorFeatureBase
 {
     private IInputSource<ActorCommand> _inputSource;
     private Motor2DFeature _motor;
     private AbilityRunnerFeature _abilityRunner;
-    private AbilityDefinition _defaultAbility;
 
     public override void Initialize(ActorContext ctx)
     {
@@ -37,15 +36,8 @@ public class ActorCommandProcessor : ActorFeatureBase
             );
         }
 
-        // Cache references to features we'll be controlling
         _motor = GetComponent<Motor2DFeature>();
         _abilityRunner = GetComponent<AbilityRunnerFeature>();
-
-        // Get default ability from actor definition (use first ability if available)
-        if (ctx.Definition.Abilities != null && ctx.Definition.Abilities.Length > 0)
-        {
-            _defaultAbility = ctx.Definition.Abilities[0];
-        }
     }
 
     public override void Tick(float dt)
@@ -80,13 +72,28 @@ public class ActorCommandProcessor : ActorFeatureBase
         }
 
         // 2) Attack/Ability
-        if (_abilityRunner != null && cmd.attackPressed && _defaultAbility != null)
+        if (_abilityRunner != null && cmd.attackPressed)
         {
-            // Calculate direction from actor position to aim target
-            Vector2 actorPos = transform.position;
-            Vector2 aimDirection = (cmd.aimWorld - actorPos).normalized;
+            AbilityDefinition ability = ResolveBySlot(cmd.requestedAbilitySlot);
 
-            _abilityRunner.TryCast(_defaultAbility, aimDirection);
+            if (ability != null)
+            {
+                Vector2 actorPos = transform.position;
+                Vector2 aimDir =
+                    (cmd.aimWorld - actorPos).sqrMagnitude > 0.0001f
+                        ? (cmd.aimWorld - actorPos).normalized
+                        : (Vector2)transform.right;
+
+                _abilityRunner.TryCast(ability, cmd.requestedAbilitySlot, aimDir);
+            }
         }
+    }
+
+    private AbilityDefinition ResolveBySlot(int slot)
+    {
+        var arr = Ctx.Definition.Abilities;
+        if (arr == null || slot < 0 || slot >= arr.Length)
+            return null;
+        return arr[slot];
     }
 }

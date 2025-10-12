@@ -461,6 +461,32 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!1 &589970950 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5744271533397210999, guid: 16c22d6a74e526d43888c5a9dd07fa7e, type: 3}
+  m_PrefabInstance: {fileID: 1929113883}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &589970962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589970950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7c29acf3701de49a52fa892ea6ba5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaseAndStrikeBrain
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  requireLineOfSight: 0
+  losObstacles:
+    serializedVersion: 2
+    m_Bits: 0
+  reacquireInterval: 0.25
+  minStopBuffer: 0.05
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +858,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5744271533397210999, guid: 16c22d6a74e526d43888c5a9dd07fa7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 589970962}
   m_SourcePrefab: {fileID: 100100000, guid: 16c22d6a74e526d43888c5a9dd07fa7e, type: 3}
 --- !u!1 &2029268463
 GameObject:

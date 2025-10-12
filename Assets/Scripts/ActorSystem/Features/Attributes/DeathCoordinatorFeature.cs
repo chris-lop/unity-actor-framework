@@ -32,7 +32,7 @@ public sealed class DeathCoordinatorFeature : MonoBehaviour, IActorFeature
         _isDying = true;
 
         // freeze gameplay systems
-        var proc = GetComponent<ActorCommandProcessor>();
+        var proc = GetComponent<ActorCommandProcessorFeature>();
         if (proc)
             proc.enabled = false;
         var motor = GetComponent<Motor2DFeature>();

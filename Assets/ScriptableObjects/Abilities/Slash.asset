@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAOEAbility
   Id: Basic
-  Cooldown: 0.5
+  Cooldown: 2
   Damage: 10
+  Range: 1
   HurtboxMask:
     serializedVersion: 2
     m_Bits: 256
