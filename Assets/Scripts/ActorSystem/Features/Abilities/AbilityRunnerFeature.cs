@@ -3,9 +3,13 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public sealed class AbilityRunnerFeature : MonoBehaviour, IActorFeature
 {
+    public static float GlobalCooldown = 1f;
     private ActorContext _ctx;
     private TeamFeature _team;
-    private float[] _cdBySlot;
+
+    // Cooldown
+    private float _gcdEndsAt;
+    private float[] _slotEndsAt = System.Array.Empty<float>();
 
     // Preview fields
     private AbilityDefinition _currentAbility;
@@ -21,54 +25,49 @@ public sealed class AbilityRunnerFeature : MonoBehaviour, IActorFeature
         _ctx = ctx;
         _team = GetComponent<TeamFeature>();
         int n = _ctx.Definition?.Abilities?.Length ?? 0;
-        _cdBySlot = n > 0 ? new float[n] : System.Array.Empty<float>();
+        _slotEndsAt = n > 0 ? new float[n] : System.Array.Empty<float>();
+        _gcdEndsAt = 0f;
     }
 
     public bool TryCast(AbilityDefinition def, int slot, Vector2 dir)
     {
         if (def == null)
             return false;
+        if ((uint)slot >= (uint)_slotEndsAt.Length)
+            return false;
         if (!IsReady(slot))
             return false;
 
-        dir = dir.sqrMagnitude > 0.0001f ? dir.normalized : (Vector2)transform.right;
+        var aim = dir.sqrMagnitude > 1e-4f ? dir.normalized : (Vector2)transform.right;
 
-        bool ok = def.TryCast(
-            dir.sqrMagnitude > 0.0001f ? dir.normalized : (Vector2)transform.right,
-            _ctx,
-            GetComponent<TeamFeature>()
-        );
+        bool ok = def.TryCast(aim, _ctx, _team);
+        if (!ok)
+            return false;
 
-        if (ok)
-        {
-            _cdBySlot[slot] = Mathf.Max(0f, def.Cooldown);
-            _ctx.Events.Raise(new AbilityCastEvent { AbilityId = def.Id });
+        _gcdEndsAt = Time.time + GlobalCooldown;
+        _slotEndsAt[slot] = Time.time + Mathf.Max(0f, def.Cooldown);
+        _ctx.Events.Raise(new AbilityCastEvent { AbilityId = def.Id });
 
-            // cache for editor preview
-            _currentAbility = def;
-            _lastAimDir = dir;
+        // editor preview cache
+        _currentAbility = def;
+        _lastAimDir = dir;
 #if UNITY_EDITOR
-            _previewExpireAt = Now() + 2.0;
+        _previewExpireAt = Now() + 2.0;
 #endif
-        }
+
         return ok;
     }
 
-    public void Tick(float dt)
-    {
-        for (int i = 0; i < _cdBySlot.Length; i++)
-            if (_cdBySlot[i] > 0f)
-                _cdBySlot[i] -= dt;
-    }
+    public void Tick(float dt) { }
 
     public void FixedTick(float fdt) { }
 
     public void Shutdown() { }
 
-    public bool IsReady(int slot)
-    {
-        return slot >= 0 && slot < _cdBySlot.Length && _cdBySlot[slot] <= 0f;
-    }
+    public bool IsReady(int slot) =>
+        Time.time >= _gcdEndsAt
+        && (uint)slot < (uint)_slotEndsAt.Length
+        && Time.time >= _slotEndsAt[slot];
 
 #if UNITY_EDITOR
     public void SetPreview(AbilityDefinition def, Vector2 dir)
